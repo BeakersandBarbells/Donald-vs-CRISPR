@@ -24,7 +24,6 @@ def sentscore(tweettext):
     a = tweettext.encode('ascii', 'ignore')
     b = str(a)
     c = re.sub("[^\w]", " ", b).split()
-    #textlist = c.split()
     score = 0
     counter = 0
     for word in c:
