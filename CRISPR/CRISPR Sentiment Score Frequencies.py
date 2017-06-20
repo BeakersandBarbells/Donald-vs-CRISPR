@@ -4,17 +4,6 @@ import simplejson
 import re
 import matplotlib.pyplot as plt
 
-openfile = open('C:\Users\m144851\Desktop\Github '
-                'Projects\Donald-vs-CRISPR\Data\Raw\CRISPRTweets2017-06-17+00.json').read()
-
-dict_list = [d.strip() for d in openfile.splitlines()]
-
-tweetlist = []
-
-for line in (dict_list):
-    a = simplejson.loads(line)
-    tweetlist.append(a)
-
 df = pd.read_pickle('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\Data\Clean\AllCRISPRTweetsdataframe.pkl')
 
 doc = open('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\AFINN-en-165.txt', 'r')
