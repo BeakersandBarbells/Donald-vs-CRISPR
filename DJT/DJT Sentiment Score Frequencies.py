@@ -4,7 +4,7 @@ import simplejson
 import re
 import matplotlib.pyplot as plt
 
-openfile = open('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\Data\DJTTweets2017-06-17+00.json').read()
+openfile = open('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\Data\Raw\DJTTweets2017-06-17+00.json').read()
 
 dict_list = [d.strip() for d in openfile.splitlines()]
 
