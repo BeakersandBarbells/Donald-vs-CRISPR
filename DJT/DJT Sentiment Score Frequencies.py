@@ -4,7 +4,7 @@ import simplejson
 import re
 import matplotlib.pyplot as plt
 
-openfile = open('DJTTweets2017-06-17+00.json').read()
+openfile = open('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\Data\DJTTweets2017-06-17+00.json').read()
 
 dict_list = [d.strip() for d in openfile.splitlines()]
 
@@ -19,7 +19,7 @@ for line in (dict_list):
 
 df = pd.DataFrame(tweetlist)
 
-doc = open('C:\Users\m144851\Dropbox\Personal\Education\Independent Learning\Data Science\Projects\CRISPR Sentiment\AFINN-en-165.txt', 'r')
+doc = open('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\AFINN-en-165.txt', 'r')
 
 scores = {}
 for line in doc:
