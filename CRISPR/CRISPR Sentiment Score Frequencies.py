@@ -15,7 +15,7 @@ for line in (dict_list):
     a = simplejson.loads(line)
     tweetlist.append(a)
 
-df = pd.DataFrame(tweetlist)
+df = pd.read_pickle('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\Data\Clean\AllCRISPRTweetsdataframe.pkl')
 
 doc = open('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\AFINN-en-165.txt', 'r')
 
