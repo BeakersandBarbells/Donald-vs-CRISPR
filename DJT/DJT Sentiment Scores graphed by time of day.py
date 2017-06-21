@@ -37,9 +37,6 @@ def dateinfo(tweetcreationdate):
     a = datetime.strptime(tweetcreationdate[:19], '%a %b %d %X')
     b = a.replace(2017)
     return b
-    #tweetcreationdate
-
-#print df.TweetCreationDate
 
 df['tweetdatetime'] = df.TweetCreationDate.apply(dateinfo)
 
