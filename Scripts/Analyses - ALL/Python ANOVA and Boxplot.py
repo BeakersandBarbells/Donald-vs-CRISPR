@@ -12,12 +12,16 @@ sundaytweets = df.loc[df['tweetweekday'] == 'Sunday']
 mondaytweets = df.loc[df['tweetweekday'] == 'Monday']
 tuesdaytweets = df.loc[df['tweetweekday'] == 'Tuesday']
 wednesdaytweets = df.loc[df['tweetweekday'] == 'Wednesday']
+thursdaytweets = df.loc[df['tweetweekday'] == 'Thursday']
+fridaytweets = df.loc[df['tweetweekday'] == 'Friday']
 
 satcleanscores = saturdaytweets.Tweettextscore.dropna()
 suncleanscores = sundaytweets.Tweettextscore.dropna()
 moncleanscores = mondaytweets.Tweettextscore.dropna()
 tuescleanscores = tuesdaytweets.Tweettextscore.dropna()
 wedscleanscores = wednesdaytweets.Tweettextscore.dropna()
+thurscleanscores = thursdaytweets.Tweettextscore.dropna()
+fricleanscores = fridaytweets.Tweettextscore.dropna()
 
 grps = pd.unique(df.tweetweekday.values)
 d_df = {grp:df['Tweettextscore'][df.tweetweekday == grp] for grp in grps}
@@ -30,10 +34,12 @@ n1 = df.groupby('tweetweekday').size()[1]
 n2 = df.groupby('tweetweekday').size()[2]
 n3 = df.groupby('tweetweekday').size()[3]
 n4 = df.groupby('tweetweekday').size()[4]
+n5 = df.groupby('tweetweekday').size()[5]
+n6 = df.groupby('tweetweekday').size()[6]
 
-NValueslist = [n0, n1, n2, n3, n4]
+NValueslist = [n0, n1, n2, n3, n4, n5, n6]
 
-f, p = stats.f_oneway(d_df['Saturday'], d_df['Sunday'], d_df['Monday'], d_df['Tuesday'], d_df['Wednesday'])
+f, p = stats.f_oneway(d_df['Saturday'], d_df['Sunday'], d_df['Monday'], d_df['Tuesday'], d_df['Wednesday'], d_df['Thursday'], d_df['Friday'])
 
 p = round(p, 6)
 f = round(f, 2)
@@ -43,16 +49,16 @@ statnames = ['F', 'P-value', 'Unique Groups', 'Total Tweets Analyzed']
 
 fig = plt.figure(1, figsize=(6, 10))
 plt.subplot(2,1,1)
-plt.boxplot([satcleanscores.values, suncleanscores, moncleanscores, tuescleanscores, wedscleanscores], notch=True)
+plt.boxplot([satcleanscores.values, suncleanscores, moncleanscores, tuescleanscores, wedscleanscores, thurscleanscores, fricleanscores], notch=True)
 frame1 = plt.gca()
 frame1.axes.get_xaxis().set_visible(False)
 plt.axhline(y=0, lw=0.5, ls='dashed')
 plt.ylabel('Sentiment Score')
 plt.title('John Cena Sentiment Scores')
 
-table1 = plt.table(cellText=[NValueslist], colLabels=['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday'], loc='bottom', cellLoc='center', rowLabels=['N'])
+table1 = plt.table(cellText=[NValueslist], colLabels=['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], loc='bottom', cellLoc='center', rowLabels=['N'])
 table1.auto_set_font_size(False)
-table1.set_fontsize(10)
+table1.set_fontsize(8)
 
 plt.subplot(2,1,2)
 table2 = plt.table(label=['ANOVA'], cellText=[statanswers], loc='center', cellLoc='center', colLabels=['F', 'P-value', 'Unique Groups', 'Total N'])

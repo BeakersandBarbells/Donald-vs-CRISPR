@@ -7,13 +7,14 @@ from datetime import datetime
 
 #this script opens two different JSON docs from my tweet streamers, compiles them into a big list, converts to a dataframe, then dumps them into a .pkl file. Neat!
 
-rawdata1 = open('C:\Users\m144851\Desktop\Github '
-                'Projects\Donald-vs-CRISPR\Data\Raw\MysteryTweets2017-06-20+00.json').read()
+name = 'CRISPR'
+
+rawdata1 = open('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\Data\Raw\CRISPRTweets2017-06-21+00.json').read()
 
 #rawdata2 = open('C:\Users\m144851\Desktop\Github '
 #                'Projects\Donald-vs-CRISPR\Data\Raw\DJTTweets2017-06-21+00.json').read()
 
-cleandata1 = pd.read_pickle('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\Data\Clean\AllMysteryTweetsdataframe.pkl')
+cleandata1 = pd.read_pickle('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\Data\Clean\All' + name + 'Tweetsdataframe.pkl')
 
 dict_list1 = [d.strip() for d in rawdata1.splitlines()]
 #dict_list2 = [d.strip() for d in rawdata2.splitlines()]
@@ -41,7 +42,7 @@ df = pd.DataFrame(tweetlist1)
 newdf = pd.concat([df, cleandata1], ignore_index=True)
 
 doc = open(
-    'C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\AFINN-en-165.txt',
+    'C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\Resources\AFINN-en-165.txt',
     'r')
 
 scores = {}
@@ -91,4 +92,4 @@ def weekday(datetimeday):
 
 newdf['tweetweekday'] = newdf.tweetdatetime.apply(weekday)
 
-newdf.to_pickle('AllMysteryTweetsdataframe-1.pkl')
+newdf.to_pickle('All'+ name + 'Tweetsdataframe.pkl')
