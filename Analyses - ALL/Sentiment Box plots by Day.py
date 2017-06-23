@@ -1,76 +1,28 @@
 import pandas as pd
-from datetime import datetime
-from datetime import date
-import numpy as np
 from matplotlib import pyplot as plt
-import re
 
-DJTdf = pd.read_pickle('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\Data\Clean\AllMysteryTweetsdataframe.pkl')
-
-doc = open(
-    'C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\AFINN-en-165.txt',
-    'r')
-
-scores = {}
-for line in doc:
-    term, score = line.split("\t")
-    scores[term] = int(score)
-
-def sentscore(tweettext):
-    a = tweettext.encode('ascii', 'ignore')
-    b = str(a)
-    c = re.sub("[^\w]", " ", b).split()
-    score = 0
-    counter = 0
-    for word in c:
-        if word in scores:
-            score += scores[word]
-            counter += 1
-    if counter >= 1:
-        return score
-    else:
-        return np.nan
-
-DJTdf['Tweettextscore'] = DJTdf.Tweettext.apply(sentscore)
-
-def dateinfo(tweetcreationdate):
-    a = datetime.strptime(tweetcreationdate[:19], '%a %b %d %X')
-    b = a.replace(2017)
-    return b
-
-DJTdf['tweetdatetime'] = DJTdf.TweetCreationDate.apply(dateinfo)
-
-def weekday(datetimeday):
-    if date.weekday(datetimeday) == 0:
-        return 'Monday'
-    elif date.weekday(datetimeday) == 1:
-        return 'Tuesday'
-    elif date.weekday(datetimeday) == 2:
-        return 'Wednesday'
-    elif date.weekday(datetimeday) == 3:
-        return 'Thursday'
-    elif date.weekday(datetimeday) == 4:
-        return 'Friday'
-    elif date.weekday(datetimeday) == 5:
-        return 'Saturday'
-    elif date.weekday(datetimeday) == 6:
-        return 'Sunday'
-
-DJTdf['tweetweekday'] = DJTdf.tweetdatetime.apply(weekday)
+DJTdf = pd.read_pickle('C:\Users\m144851\Desktop\Github Projects\Donald-vs-CRISPR\Data\Clean\AllCRISPRTweetsdataframe.pkl')
 
 saturdaytweets = DJTdf.loc[DJTdf['tweetweekday'] == 'Saturday']
 sundaytweets = DJTdf.loc[DJTdf['tweetweekday'] == 'Sunday']
 mondaytweets = DJTdf.loc[DJTdf['tweetweekday'] == 'Monday']
 tuesdaytweets = DJTdf.loc[DJTdf['tweetweekday'] == 'Tuesday']
-# wednesdaytweets = DJTdf.loc[DJTdf['tweetweekday'] == 'Wednesday']
+wednesdaytweets = DJTdf.loc[DJTdf['tweetweekday'] == 'Wednesday']
 # thursdaytweets = DJTdf.loc[DJTdf['tweetweekday'] == 'Thursday']
 # fridaytweets = DJTdf.loc[DJTdf['tweetweekday'] == 'Friday']
 
 listthing = [saturdaytweets, sundaytweets, mondaytweets, tuesdaytweets]
 
-tweetscore = saturdaytweets.Tweettextscore
-cleanscores = tweetscore.dropna()
+satcleanscores = saturdaytweets.Tweettextscore.dropna()
+suncleanscores = sundaytweets.Tweettextscore.dropna()
+moncleanscores = mondaytweets.Tweettextscore.dropna()
+tuescleanscores = tuesdaytweets.Tweettextscore.dropna()
+wedscleanscores = wednesdaytweets.Tweettextscore.dropna()
 
-plt.boxplot(cleanscores)
-
+plt.boxplot([satcleanscores.values, suncleanscores, moncleanscores, tuescleanscores, wedscleanscores], notch=True, labels=['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday'])
+plt.axhline(y=0, lw=0.5, ls='dashed')
+plt.xlabel('Day of the Week')
+plt.ylabel('Sentiment Score')
+plt.title('CRISPR Sentiment Scores')
+plt.savefig('CRISPR Sentiment Score Boxplots.png')
 plt.show()
